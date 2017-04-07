@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html ng-cloak ng-app="KisanMaster">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+</head>
+<body md-theme-watch layout="column">
+
+    @RenderBody()
+    @*<div ng-controller="mainCtrl"></div>*@
+    @Scripts.Render("~/bundles/angularjs")
+    @Scripts.Render("~/bundles/angularMaterial")
+    @Scripts.Render("~/bundles/Customjs")
+    <script src="~/Scripts/angular-ui-router.js"></script>
+    <script src="~/Scripts/Kisan/KisanApp.js"></script>
+    <script src="~/Scripts/Kisan/Dashboard.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

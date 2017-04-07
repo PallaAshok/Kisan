@@ -1,0 +1,24 @@
+﻿<div layout-fill layout="row" layout-align="center center" ng-controller="LoginController as LogCtrl">
+    <md-card flex="flex" flex-gt-sm="50" flex-gt-md="33">
+        <md-card-content>
+            <form name="loginForm">
+                <md-input-container class="md-block">
+                    <label>Login</label>
+                    <input type="email" name="email" ng-model="LogCtrl.login.email" required />
+                    <div ng-messages="loginForm.email.$error">
+                        <div ng-message="required">Please enter your email.</div>
+                    </div>
+                </md-input-container>
+                <md-input-container class="md-block">
+                    <label>Password</label>
+                    <input type="password" name="password" ng-model="LogCtrl.login.password" required />
+                    <div ng-messages="loginForm.password.$error">
+                        <div ng-message="required">Please enter your password.</div>
+                        <div ng-message="md-maxlength">Too long.</div>
+                    </div>
+                </md-input-container>
+                <md-button ng-disabled="!loginForm.$valid" ng-click="LoginSubmit()" class="md-raised md-primary">&nbsp; Login &nbsp;</md-button>
+            </form>
+        </md-card-content>
+    </md-card>
+</div>

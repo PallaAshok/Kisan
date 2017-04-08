@@ -1,6 +1,5 @@
 ﻿var Kisan = angular.module('login', ['KisanApp']);
 Kisan.controller('LoginController', function ($rootScope, $location, $scope, $http, $httpParamSerializer, $state) {
-    debugger;
     if ($rootScope.Authentication != undefined && $rootScope.Authentication != '') {
         $state.go('Dashboard');
     }
@@ -15,5 +14,5 @@ Kisan.controller('LoginController', function ($rootScope, $location, $scope, $ht
             $rootScope.Authentication = angular.fromJson(Data.data);
             $state.go('Dashboard');
         }, function (responce) { debugger; });
-    }
+    }debugger;
 });

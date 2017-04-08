@@ -1,6 +1,5 @@
 ﻿var Kisan = angular.module('login', ['KisanApp']);
 Kisan.controller('LoginController', function ($rootScope, $location, $scope, $http, $httpParamSerializer, $state) {
-    debugger;
     if ($rootScope.Authentication != undefined && $rootScope.Authentication != '') {
         $state.go('Dashboard');
     }

@@ -1,10 +1,6 @@
 ﻿using Kisan.Models;
 using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Kisan.Controllers
@@ -12,12 +8,6 @@ namespace Kisan.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : System.Web.Http.ApiController
     {
-        private AuthRepository _repo = null;
- 
-        public AccountController()
-        {
-            _repo = new AuthRepository();
-        }
  
         // POST api/Account/Register
         [AllowAnonymous]
@@ -29,26 +19,16 @@ namespace Kisan.Controllers
                 return BadRequest(ModelState);
             }
  
-            IdentityResult result = await _repo.RegisterUser(userModel);
+            //IdentityResult result = await _repo.RegisterUser(userModel);
 
-            System.Web.Http.IHttpActionResult errorResult = GetErrorResult(result);
+            //System.Web.Http.IHttpActionResult errorResult = GetErrorResult(result);
  
-            if (errorResult != null)
-            {
-                return errorResult;
-            }
+            //if (errorResult != null)
+            //{
+            //    return errorResult;
+            //}
  
             return Ok();
-        }
- 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _repo.Dispose();
-            }
- 
-            base.Dispose(disposing);
         }
  
         private System.Web.Http.IHttpActionResult GetErrorResult(IdentityResult result)

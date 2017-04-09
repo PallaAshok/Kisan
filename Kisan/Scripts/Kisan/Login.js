@@ -1,7 +1,7 @@
 ﻿var Kisan = angular.module('login', ['KisanApp']);
 Kisan.controller('LoginController', function ($rootScope, $location, $scope, $http, $httpParamSerializer, $state) {
     if ($rootScope.Authentication != undefined && $rootScope.Authentication != '') {
-        $state.go('Dashboard');
+        $state.go('Farmer');
     }
     $scope.LoginSubmit = function (form) {
         var th = this;
@@ -12,7 +12,7 @@ Kisan.controller('LoginController', function ($rootScope, $location, $scope, $ht
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         }).then(function (Data) {
             $rootScope.Authentication = angular.fromJson(Data.data);
-            $state.go('Dashboard');
+            $state.go('Farmer');
             }, function (responce) {
                 form.password.$setValidity('checkEmailPassword', false); 
             });

@@ -306,18 +306,17 @@ public class BusinessLogicLayer
 
     #endregion
 
-    #region BANK PAGE
+    #region FARMER PAGE
 
-    #region GET_BANK_RELATED_DATA
+    #region GET_FARMER_RELATED_DATA
 
-    public static DataSet GET_BANK_RELATED_DATA(int? BankID, int LoginUserID)
+    public static DataSet GET_FARMER_RELATED_DATA(int? FarmerID)
     {
         try
         {
-            const string storedprocedure = "[RECOVERY].[BANK_GET]";
-            var parameters = new SqlParameter[2];
-            parameters[0] = new SqlParameter("@BANKID", SqlDbType.Int) { Value = BankID };
-            parameters[1] = new SqlParameter("@USERID", LoginUserID);
+            const string storedprocedure = "[ADMIN].[FARMERDETAILS]";
+            var parameters = new SqlParameter[1];
+            parameters[0] = new SqlParameter("@FARMERID", SqlDbType.Int) { Value = FarmerID };
             var ds = SQLHelper.GetInstance().ExecuteStoredProcedureReturnDataSet(storedprocedure, parameters);
             return ds;
         }
@@ -331,32 +330,23 @@ public class BusinessLogicLayer
 
     #endregion
 
-    #region USER_DETAILS_INSERT_UPDATE
+    #region FARMER_DETAILS_INSERT_UPDATE
 
-    public static DataSet BANK_DETAILS_INSERT_UPDATE(string BankID, string BankName, string ZoneName, string BranchName, string City, string Empanelmentdate, string Validupto, string ContactPerson, string CPHNumber, string BankEmailAddress, string BPHNumber, string Address, string Active, DataTable Ranges, DataTable OTSRanges)
+    public static DataSet FARMER_DETAILS_INSERT_UPDATE(int? farmerID, string name, string location, string contactNo, string panNo, string bankAccountNo)
     {
         try
         {
-            const string storedprocedure = "[RECOVERY].[BANK_INSERT_UPDATE]";
-            var parameters = new SqlParameter[16];
-            parameters[0] = new SqlParameter("@ID", SqlDbType.Int) { Value = Convert.ToInt32(BankID) };
-            parameters[1] = new SqlParameter("@Name", SqlDbType.VarChar) { Value = BankName };
-            parameters[2] = new SqlParameter("@Zone", SqlDbType.VarChar) { Value = ZoneName };
-            parameters[3] = new SqlParameter("@Branch", SqlDbType.VarChar) { Value = BranchName };
-            parameters[4] = new SqlParameter("@City", SqlDbType.VarChar) { Value = City };
-            parameters[5] = new SqlParameter("@ContactPerson1", SqlDbType.VarChar) { Value = ContactPerson };
-            parameters[6] = new SqlParameter("@ContactNo", SqlDbType.VarChar) { Value = CPHNumber };
-            parameters[7] = new SqlParameter("@BankMailID", SqlDbType.VarChar) { Value = BankEmailAddress };
-            parameters[8] = new SqlParameter("@BankContactNo", SqlDbType.VarChar) { Value = BPHNumber };
-            parameters[9] = new SqlParameter("@Address", SqlDbType.VarChar) { Value = Address };
-            parameters[10] = new SqlParameter("@UserID", SqlDbType.Int) { Value = Convert.ToInt32(GetUserIDFromCookie()) };
-            parameters[11] = new SqlParameter("@Active", SqlDbType.Bit) { Value = Active };
-            parameters[12] = new SqlParameter("@Empanelmentdate", SqlDbType.Date) { Value = Empanelmentdate == "" ? null : Empanelmentdate };
-            parameters[13] = new SqlParameter("@Validupto", SqlDbType.Date) { Value = Validupto == "" ? null : Validupto };
-            parameters[14] = new SqlParameter("@Ranges", SqlDbType.Structured) { Value = Ranges };
-            parameters[15] = new SqlParameter("@OTSRanges", SqlDbType.Structured) { Value = OTSRanges };
+            const string storedprocedure = "[ADMIN].[INSERTUPDATEFARMERDETAILS]";
+            var parameters = new SqlParameter[7];
+            parameters[0] = farmerID == null ? new SqlParameter("@FarmerID", DBNull.Value) : new SqlParameter("@FarmerID", DBNull.Value) { Value = Convert.ToInt32(farmerID) };
+            parameters[1] = new SqlParameter("@Name", SqlDbType.VarChar) { Value = name };
+            parameters[2] = new SqlParameter("@ContactNo", SqlDbType.VarChar) { Value = contactNo };
+            parameters[3] = new SqlParameter("@Location", SqlDbType.VarChar) { Value = location };
+            parameters[4] = new SqlParameter("@PanNo", SqlDbType.VarChar) { Value = panNo };
+            parameters[5] = new SqlParameter("@BankAccountNo", SqlDbType.VarChar) { Value = bankAccountNo };
+            parameters[6] = new SqlParameter("@CreatedBy", SqlDbType.VarChar) { Value = 1 };
             var ds = SQLHelper.GetInstance().ExecuteStoredProcedureReturnDataSet(storedprocedure, parameters);
-            return ds;
+            return null;
         }
         catch (Exception Ex)
         {
@@ -4818,54 +4808,54 @@ public class BusinessLogicLayer
     #region ERROR_MAIL
     public static void ERROR_MAIL_CR(Exception ERRORCONTENT)
     {
-        foreach (var Mail in ConfigurationManager.AppSettings["ErrorReceiverMails"].Split(','))
-        {
-            if (!string.IsNullOrEmpty(Mail))
-            {
-                StackTrace stackTrace = new StackTrace();
-                string MName = stackTrace.GetFrame(1).GetMethod().Name.Replace("<", "").Split('>')[0];
-                logfile.ErrorFormat(ERRORCONTENT.Message + "found in method" + MName);
-                string SMTP_SERVER = ConfigurationManager.AppSettings["MailServer"];
-                string FROM_MAIL = ConfigurationManager.AppSettings["From"];
-                string SENDER_MAIL = ConfigurationManager.AppSettings["AuthUser"];
-                string SENDER_MAIL_PASSWORD = ConfigurationManager.AppSettings["AuthPass"];
-                string MAIL_AUTHENTICATION = ConfigurationManager.AppSettings["MailAuthentication"];
-                SmtpClient SMTP_CLIENT = new SmtpClient();
-                NetworkCredential BASIC_CREDENTIAL = new NetworkCredential(SENDER_MAIL, SENDER_MAIL_PASSWORD);
-                MailMessage MESSAGE = new MailMessage();
-                MailAddress FROM_MAIL_ADDRESS = new MailAddress(FROM_MAIL, "CR Error Details");
+        //foreach (var Mail in ConfigurationManager.AppSettings["ErrorReceiverMails"].Split(','))
+        //{
+        //    if (!string.IsNullOrEmpty(Mail))
+        //    {
+        //        StackTrace stackTrace = new StackTrace();
+        //        string MName = stackTrace.GetFrame(1).GetMethod().Name.Replace("<", "").Split('>')[0];
+        //        logfile.ErrorFormat(ERRORCONTENT.Message + "found in method" + MName);
+        //        string SMTP_SERVER = ConfigurationManager.AppSettings["MailServer"];
+        //        string FROM_MAIL = ConfigurationManager.AppSettings["From"];
+        //        string SENDER_MAIL = ConfigurationManager.AppSettings["AuthUser"];
+        //        string SENDER_MAIL_PASSWORD = ConfigurationManager.AppSettings["AuthPass"];
+        //        string MAIL_AUTHENTICATION = ConfigurationManager.AppSettings["MailAuthentication"];
+        //        SmtpClient SMTP_CLIENT = new SmtpClient();
+        //        NetworkCredential BASIC_CREDENTIAL = new NetworkCredential(SENDER_MAIL, SENDER_MAIL_PASSWORD);
+        //        MailMessage MESSAGE = new MailMessage();
+        //        MailAddress FROM_MAIL_ADDRESS = new MailAddress(FROM_MAIL, "CR Error Details");
 
-                SMTP_CLIENT.Host = SMTP_SERVER;
-                if (MAIL_AUTHENTICATION == "True")
-                {
-                    SMTP_CLIENT.UseDefaultCredentials = false;
-                    SMTP_CLIENT.Credentials = BASIC_CREDENTIAL;
-                }
-                else
-                {
-                    SMTP_CLIENT.UseDefaultCredentials = true;
-                }
-                MESSAGE.From = FROM_MAIL_ADDRESS;
-                MESSAGE.Subject = "ERROR IN CUSTOMER RECOVERY";
-                //Set IsBodyHtml to true means you can send HTML email. 
-                MESSAGE.IsBodyHtml = false;
-                MESSAGE.Body =
-                    string.Format(
-                        "Dear Developer, \n\n    Error found in Application. Please find below Details, \n        Method Name: " +
-                        MName + "." + "\n        Error Message : " + ERRORCONTENT.Message +
-                        "\n\nThanks & Regards,\n Pvt LTD.");
-                MESSAGE.To.Add(Mail);
-                try
-                {
-                    SMTP_CLIENT.Send(MESSAGE);
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-            }
+        //        SMTP_CLIENT.Host = SMTP_SERVER;
+        //        if (MAIL_AUTHENTICATION == "True")
+        //        {
+        //            SMTP_CLIENT.UseDefaultCredentials = false;
+        //            SMTP_CLIENT.Credentials = BASIC_CREDENTIAL;
+        //        }
+        //        else
+        //        {
+        //            SMTP_CLIENT.UseDefaultCredentials = true;
+        //        }
+        //        MESSAGE.From = FROM_MAIL_ADDRESS;
+        //        MESSAGE.Subject = "ERROR IN CUSTOMER RECOVERY";
+        //        //Set IsBodyHtml to true means you can send HTML email. 
+        //        MESSAGE.IsBodyHtml = false;
+        //        MESSAGE.Body =
+        //            string.Format(
+        //                "Dear Developer, \n\n    Error found in Application. Please find below Details, \n        Method Name: " +
+        //                MName + "." + "\n        Error Message : " + ERRORCONTENT.Message +
+        //                "\n\nThanks & Regards,\n Pvt LTD.");
+        //        MESSAGE.To.Add(Mail);
+        //        try
+        //        {
+        //            SMTP_CLIENT.Send(MESSAGE);
+        //        }
+        //        catch (Exception)
+        //        {
+        //            // ignored
+        //        }
+        //    }
 
-        }
+        //}
     }
     #endregion
 }

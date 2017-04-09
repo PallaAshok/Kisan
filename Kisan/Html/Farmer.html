@@ -1,0 +1,115 @@
+﻿<div layout="row" ng-cloak layout-fill ng-controller="FarmerController">
+    <div layout="column" layout-fill>
+        <md-toolbar class="md-table-toolbar md-accent">
+            <div class="md-toolbar-tools">
+                <span>Farmer</span>
+            </div>
+        </md-toolbar>
+
+        <md-toolbar class="md-table-toolbar" ng-if="!addRow">
+            <div class="md-toolbar-tools">
+                <strong style="font-size: 16px"></strong>
+                <div flex></div>
+                <form flex name="filter.form" layout="row" layout-align="end center" style="padding-right: 18px">
+                    <md-input-container md-no-float class="md-block" flex="50" flex-xs="50">
+                        <input placeholder="Search" type="text" ng-model="query.filter" aria-label="Follow" ng-model-options="filter.options" />
+                    </md-input-container>
+                </form>
+
+                <md-button aria-label="AddRow" class="md-icon-button" ng-click="Reload()">
+                    <img ng-src="{{screenIcons.plusIcon}}" />
+                    <md-tooltip md-direction="bottom">Add farmer</md-tooltip>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-content class="md-content-screen" ng-if="!addRow">
+            <md-table-container class="table_content" layout-padding>
+                <table md-table>
+                    <thead md-head ng-if="!options.decapitate" md-order="query.order" md-on-reorder="logOrder">
+                        <tr md-row>
+                            <th md-column md-order-by="name">Name</th>
+                            <th md-column md-order-by="location">Location</th>
+                            <th md-column md-order-by="contactNo">Contact No</th>
+                            <th md-column md-order-by="panNo">Pan</th>
+                            <th md-column md-order-by="bankAccountNo">Bank Account No</th>
+                            <th md-column>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row ng-repeat="Data in GridData.data | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+
+                            <td md-cell>{{Data.name}}</td>
+                            <td md-cell>{{Data.location}}</td>
+                            <td md-cell>{{Data.contactNo}}</td>
+                            <td md-cell>{{Data.panNo}}</td>
+                            <td md-cell>{{Data.bankAccountNo}}</td>
+                            <td md-cell layout-align="center center">
+                                <div layout-align="center center" layout="row"><img ng-click="editData(Data)" style="cursor:pointer" ng-src="{{screenIcons.editIcon}}"  /><img ng-click="deleteData($event,Data)" style="padding-left:10px; cursor:pointer" ng-src="{{screenIcons.deleteIcon}}"  /></div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </md-table-container>
+        </md-content>
+        <md-content class="md-content-screen" ng-if="addRow">
+
+            <form name="FormValidation">
+                <md-card layout="column" flex>
+                    <md-card-content>
+
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>First name</label>
+                            <input type="text" ng-model="FormData.name" name="name" required maxlength="150">
+                            <div ng-messages="FormValidation.name.$error" role="alert">
+                                <div ng-message="required" class="my-message">This is required</div>
+                                <div ng-message="md-maxlength"></div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Location</label>
+                            <input type="text" ng-model="FormData.location" name="location" required maxlength="150">
+                            <div ng-messages="FormValidation.location.$error" role="alert">
+                                <div ng-message="required" class="my-message">This is required</div>
+                                <div ng-message="md-maxlength" class="my-message"></div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Contact No</label>
+                            <input type="text" ng-model="FormData.contactNo" name="contactNo" required maxlength="10">
+                            <div ng-messages="FormValidation.contactNo.$error" role="alert">
+                                <div ng-message="required" class="my-message">This is required</div>
+                                <div ng-message="md-maxlength" class="my-message"></div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>PAN No</label>
+                            <input type="text" ng-model="FormData.panNo" name="panNo" required>
+                            <div ng-messages="FormValidation.panNo.$error" role="alert">
+                                <div ng-message="required" class="my-message">This is required</div>
+                            </div>
+                        </md-input-container>
+
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label>Bank Account No</label>
+                            <input type="text" ng-model="FormData.bankAccountNo" name="bankAccountNo" required>
+                            <div ng-messages="FormValidation.bankAccountNo.$error" role="alert">
+                                <div ng-message="required" class="my-message">This is required</div>
+                            </div>
+                        </md-input-container>
+
+                    </md-card-content>
+                    <md-card-actions layout="row" layout-align="end center">
+                        <md-button type="button" class="md-raised meritus-btn" ng-click="BackToMainScreen()">Back</md-button>
+                        <md-button type="submit" class="md-raised meritus-btn" ng-click="saveData($event,FormValidation)" ng-disabled="(FormValidation.$invalid && FormValidation.$dirty)">Save</md-button>
+                    </md-card-actions>
+
+                </md-card>
+            </form>
+        </md-content>
+
+    </div>
+</div>

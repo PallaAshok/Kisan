@@ -4,7 +4,7 @@
             <form name="loginForm">
                 <md-input-container class="md-block">
                     <label>Login</label>
-                    <input type="email" name="email" ng-pattern="/^.+@.+\..+$/" ng-model="LogCtrl.login.email" required />
+                    <input type="text" name="email"  ng-model="LogCtrl.login.email" required />
                     <div ng-messages="loginForm.email.$error">
                         <div ng-message="required">Please enter your email.</div>
                         <div ng-message="pattern">Please enter valid email.</div>

@@ -31,10 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ATeam.Common">
-      <HintPath>..\..\..\..\..\Desktop\ATeam.Common.dll</HintPath>
+      <HintPath>..\..\..\..\..\OneDrive\Toll\ATeamDLLS\ATeam.Common\bin\Debug\ATeam.Common.dll</HintPath>
     </Reference>
     <Reference Include="ATeam.Web.Common">
-      <HintPath>..\..\..\..\..\Desktop\ATeam.Web.Common.dll</HintPath>
+      <HintPath>..\..\..\..\..\OneDrive\Toll\ATeamDLLS\ATeam.Web.Common\bin\Debug\ATeam.Web.Common.dll</HintPath>
     </Reference>
     <Reference Include="itextsharp, Version=4.1.2.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
       <SpecificVersion>False</SpecificVersion>

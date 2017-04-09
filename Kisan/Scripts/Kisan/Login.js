@@ -11,7 +11,8 @@ Kisan.controller('LoginController', function ($rootScope, $location, $scope, $ht
             data: $httpParamSerializer({ grant_type: 'password', username: th.LogCtrl.login.email, password: th.LogCtrl.login.password }),
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         }).then(function (Data) {
-            $rootScope.Authentication = angular.fromJson(Data.data);
+debugger;
+          $rootScope.Authentication = angular.fromJson(Data.data);
             $state.go('Dashboard');
         }, function (responce) { debugger; });
     }

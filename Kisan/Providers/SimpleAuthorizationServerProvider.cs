@@ -20,8 +20,10 @@ namespace Kisan.Providers
             var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
 
             if (allowedOrigin == null) allowedOrigin = "*";
-
+            int? userId;
+            BusinessLogicLayer.IsValidUser(context.UserName, context.Password, out userId);
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
+            if(userId == null)
             {
                 context.SetError("invalid_grant", "The user name or password is incorrect.");
                 return;
@@ -35,7 +37,7 @@ namespace Kisan.Providers
             var props = new AuthenticationProperties(new Dictionary<string, string>
                 {
                     {
-                        "as:client_id", (context.ClientId == null) ? string.Empty : context.ClientId
+                        "userId", userId.ToString()
                     },
                     {
                         "userName", context.UserName
@@ -49,7 +51,7 @@ namespace Kisan.Providers
 
         public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
         {
-            var originalClient = context.Ticket.Properties.Dictionary["as:client_id"];
+            var originalClient = context.Ticket.Properties.Dictionary["userId"];
             var currentClient = context.ClientId;
 
             if (originalClient != currentClient)

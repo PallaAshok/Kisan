@@ -55,7 +55,7 @@ Kisan.controller('FarmerController', function ($scope, Table_Limit_Options, Tabl
         if (!oldValue) { bookmark = $scope.query.page; }
         if (newValue !== oldValue) { $scope.query.page = 1; }
         if (!newValue) { $scope.query.page = bookmark; }
-        if (data != undefined) FilterData = $filter('filter')(data, $scope.query.filter);
+        if (data !== undefined) FilterData = $filter('filter')(data, $scope.query.filter);
         if (FilterData) $scope.GridData = { "count": FilterData.length, "data": FilterData };
     });
 });
